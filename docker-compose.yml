@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+  moviedb:
+    image: postgres:15
+    container_name: moviedb
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: moviedb
+    ports:
+      - "5432:5432"
+    volumes:
+      - shared-data:/var/lib/postgresql/data
+
+  movie-ratings-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        INSTALL_DEV: "true"
+    volumes:
+      - ./src/app:/code/app
+      - ./src/alembic:/code/alembic
+      - ./.env.docker:/code/.env.docker
+      - ./.env.test:/code/.env.test
+    environment:
+      ENV_FILES: .env.docker
+      UVICORN__PORT: 8101
+    container_name: movie-ratings-app
+    ports:
+      - "8056:8101"
+    depends_on:
+      - moviedb
+
+volumes:
+  shared-data:

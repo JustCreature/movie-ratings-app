@@ -1,0 +1,42 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+#fail_fast: True
+repos:
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v5.0.0
+      hooks:
+        - id: check-docstring-first
+          types: [python]
+        - id: trailing-whitespace
+          args: [--markdown-linebreak-ext=md]
+          types: [python]
+        - id: check-executables-have-shebangs
+        - id: check-case-conflict
+          types: [python]
+        - id: check-toml
+        - id: check-yaml
+        - id: check-ast
+          types: [python]
+    - repo: https://github.com/pre-commit/pygrep-hooks
+      rev: v1.10.0
+      hooks:
+        - id: python-use-type-annotations
+          types: [python]
+        - id: python-no-log-warn
+          types: [python]
+    - repo: https://github.com/pycqa/isort
+      rev: 6.0.1
+      hooks:
+        - id: isort
+          name: isort
+    - repo: https://github.com/python/black
+      rev: 25.1.0
+      hooks:
+        - id: black
+          args: [ --safe ]
+    - repo: https://github.com/PyCQA/flake8
+      rev: 7.2.0
+      hooks:
+        - id: flake8
+          args: ['--ignore=W503,E203,E501']
+          types: [python]
