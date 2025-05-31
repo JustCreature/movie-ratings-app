@@ -43,6 +43,7 @@ include = '\.pyi?$'
 
 [tool.isort]
 profile = "black"
+skip_glob = ["**/alembic/*"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

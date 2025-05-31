@@ -1,14 +1,22 @@
 
 # movie-ratings-app
 
+You can see all the instructions for the installation below, here is a nit of a description:
 
+
+To start you need to set up local dependencies, 
+install python 3.12.4 and poetry 2.1.3
+
+Run te following command
+```shell
 poetry config virtualenvs.in-project true
+```
 
 ## How to run the service locally
 1. Clone the repo
 2. Setup the project
 ```shell
-make setup
+make install
 ```
 3. Run the service
 ```shell
