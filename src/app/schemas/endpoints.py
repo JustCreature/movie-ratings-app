@@ -25,6 +25,11 @@ class MovieOut(BaseModel):
     class Config:
         orm_mode = True
 
+
+class MovieListOut(BaseModel):
+    items: list[MovieOut]
+    total: int
+
 class RatingCreate(BaseModel):
     user_id: UUID
     movie_id: UUID
@@ -37,6 +42,11 @@ class RatingOut(BaseModel):
     rating: float
     class Config:
         orm_mode = True
+
+
+class RatingListOut(BaseModel):
+    items: list[RatingOut]
+    total: int
 
 class UserProfile(BaseModel):
     user: UserOut

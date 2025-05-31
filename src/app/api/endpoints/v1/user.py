@@ -19,9 +19,9 @@ async def create_user(user: sc.UserCreate, db: AsyncSession = Depends(get_db)) -
     filters = [("email", user.email)]
     existing = await UserRepository.find_one(db, filters=filters)
     if existing:
-        raise HTTPException(status_code=400, detail=f"User already exists with email {user.email}")
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=f"User already exists with email {user.email}")
 
-    new_user = await UserRepository.create(db, **user.dict())
+    new_user = await UserRepository.create(db, **user.model_dump())
     log.info("user_created", user_id=new_user.id)
 
     return new_user

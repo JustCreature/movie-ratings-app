@@ -49,11 +49,11 @@ class BaseRepository(Generic[T_Model, T_Schema]):
             await session.commit()
         else:
             await session.flush()
-        result = self._schema.parse_obj(obj.to_dict())
+        result = self._schema.model_validate(obj.to_dict())
         return result
 
     async def count(self, session: AsyncSession, filters: list[Filter] | None = None) -> int:
-        query = sa.select([sa.func.count()]).select_from(self._model)  # type: ignore
+        query = sa.select(sa.func.count()).select_from(self._model)  # type: ignore
         if filters:
             query = query.where(sa.and_(*self._apply_filters(filters)))
         return (await session.execute(query)).scalar_one()

@@ -14,7 +14,7 @@ class Environment(str, Enum):
 
 
 class DBSettings(BaseModel):
-    host: str = "moviedb"
+    host: str = "localhost"
     port: int = 5432
     name: str = "moviedb"
     user: str = "postgres"
