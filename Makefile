@@ -20,7 +20,14 @@ clean-start:
 	docker exec -i moviedb psql -U postgres -d moviedb < ./init_db/init_data.sql
 	docker compose up --build movie-ratings-app
 
-new-db-start:
+
+start-db: down_volume
+	docker compose up --build moviedb -d
+	sleep 3
+	PYTHONPATH=$(shell pwd)/src poetry run alembic upgrade head
+	docker exec -i moviedb psql -U postgres -d moviedb < ./init_db/init_data.sql
+
+new-db-start: down_volume
 	docker compose up --build moviedb -d
 	sleep 3
 	PYTHONPATH=$(shell pwd)/src poetry run alembic upgrade head
