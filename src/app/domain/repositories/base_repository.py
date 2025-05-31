@@ -7,6 +7,7 @@ from sqlalchemy import asc, desc, func
 from sqlalchemy.engine import Result  # type: ignore
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.sql.elements import ClauseElement, ClauseList, ColumnElement
+from sqlalchemy import select, and_
 
 T_Model = TypeVar("T_Model", bound="BaseDBModel")
 T_Schema = TypeVar("T_Schema", bound="BaseModel")
@@ -65,9 +66,9 @@ class BaseRepository(Generic[T_Model, T_Schema]):
         filters: list[Filter] | None = None,
         sort_options: list[tuple[str, SortType]] | None = None,
     ) -> Result:
-        query = sa.select(self._model)  # type: ignore
+        query = select(self._model)  # type: ignore
         if filters:
-            query = query.where(sa.and_(*self._apply_filters(filters)))
+            query = query.where(and_(*self._apply_filters(filters)))
 
         if sort_options and len(sort_options) > 0:
             for field_name, sort_type in sort_options:

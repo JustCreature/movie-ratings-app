@@ -21,7 +21,7 @@ class MovieCreate(BaseModel):
 class MovieOut(BaseModel):
     id: UUID
     title: str
-    description: str | None
+    description: str | None = None
     class Config:
         orm_mode = True
 

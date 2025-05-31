@@ -7,4 +7,4 @@ from ..settings import settings
 DATABASE_URL = settings.DB_URL
 
 engine = create_async_engine(DATABASE_URL, echo=True)
-SessionLocal = async_sessionmaker(engine, expire_on_commit=False)
+SessionLocal = async_sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)

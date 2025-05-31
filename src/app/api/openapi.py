@@ -24,7 +24,7 @@ class OpenApiDocumentation:
             {
                 "url": "http://localhost:{port}",
                 "description": "local",
-                "variables": {"port": {"default": 8054}},
+                "variables": {"port": {"default": 8056}},
             },
         ]
         self.app.openapi_schema = openapi_schema

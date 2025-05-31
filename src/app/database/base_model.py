@@ -63,7 +63,7 @@ class Base(RootBase):  # type: ignore
 
         columns = self.__table__.columns
         relationships = self.__mapper__.relationships
-        class_registry = mapper_registry._class_registry  # type: ignore
+        class_registry = self.registry._class_registry  # type: ignore
         properties = dir(self)
 
         # Update columns
@@ -211,3 +211,9 @@ class TopLevelModel(Base):
     @declared_attr
     def last_modified_by(self) -> Mapped[datetime.datetime]:
         return mapped_column(UUID(as_uuid=True), nullable=True)
+
+    def to_dict(self):
+        return {
+            c.key: getattr(self, c.key)
+            for c in self.__mapper__.column_attrs
+        }
