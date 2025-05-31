@@ -70,7 +70,7 @@ async def test_get_user_not_found(test_client, db_session):
     new_users = [
         {"name": "Test", "email": "test@test.test"},
     ]
-    user = await UserRepository.create(db_session, commit=True, **new_users[0])
+    _ = await UserRepository.create(db_session, commit=True, **new_users[0])
 
     # Act
     response = test_client.get(f"api/v1/users/{uuid.uuid4()}")

@@ -1,5 +1,3 @@
-import uuid
-
 from starlette import status
 
 from app.domain.repositories.movie_repository import MovieRepository
@@ -152,7 +150,7 @@ async def test_get_rating_not_found(test_client, db_session):
         "user_id": str(user_1.id),
         "rating": 2.0,
     }
-    rating_1 = await RatingRepository.create(db_session, **new_rating)
+    _ = await RatingRepository.create(db_session, **new_rating)
 
     # Act
 

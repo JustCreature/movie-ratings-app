@@ -15,11 +15,16 @@ router = APIRouter()
 
 
 @router.post("/users", response_model=sc.UserOut, status_code=status.HTTP_201_CREATED)
-async def create_user(user: sc.UserCreate, db: AsyncSession = Depends(get_db)) -> sc.UserOut:
+async def create_user(
+    user: sc.UserCreate, db: AsyncSession = Depends(get_db)
+) -> sc.UserOut:
     filters = [("email", user.email)]
     existing = await UserRepository.find_one(db, filters=filters)
     if existing:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=f"User already exists with email {user.email}")
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=f"User already exists with email {user.email}",
+        )
 
     new_user = await UserRepository.create(db, **user.model_dump())
     log.info("user_created", user_id=new_user.id)

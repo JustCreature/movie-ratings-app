@@ -2,7 +2,7 @@ import os
 from enum import Enum
 
 import pydantic
-from pydantic import PostgresDsn, BaseModel
+from pydantic import BaseModel, PostgresDsn
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from app.config.uvicorn_settings import UvicornSettings

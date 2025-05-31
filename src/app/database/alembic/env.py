@@ -4,8 +4,6 @@ from alembic import context
 from app.database.base_model import TopLevelModel
 from app.database.models import *  # noqa
 from app.settings import Environment, settings
-from app.database.base_model import TopLevelModel
-
 
 metadata = TopLevelModel.metadata
 config = context.config
@@ -54,7 +52,9 @@ def run_migrations_online() -> None:
     )
 
     with connectable.connect() as connection:
-        context.configure(connection=connection, target_metadata=target_metadata, compare_type=True)
+        context.configure(
+            connection=connection, target_metadata=target_metadata, compare_type=True
+        )
 
         with context.begin_transaction():
             context.run_migrations()

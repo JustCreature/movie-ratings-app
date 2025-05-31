@@ -51,7 +51,7 @@ lint:
 lint-changed:
 	git status --porcelain | egrep -v '^(D |RM|R )' | cut -b 4- | xargs poetry run pre-commit run --files
 
-lint-full-check: lint
+lint-full-check: lint # TODO: add mypy here later, it fails with  error: Error importing plugin "sqlmypy": No module named 'sqlmypy'
 
 run:
 	cd src && ENV_FILES="../.env.local" poetry run python -m app.main

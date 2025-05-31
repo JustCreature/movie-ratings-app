@@ -7,10 +7,7 @@ from app.domain.repositories.movie_repository import MovieRepository
 
 async def test_create_movie(test_client, db_session):
     # Arrange
-    new_movie = {
-      "title": "test",
-      "description": "test"
-    }
+    new_movie = {"title": "test", "description": "test"}
 
     # Act
     response = test_client.post("api/v1/movies", json=new_movie)
@@ -31,10 +28,7 @@ async def test_create_movie(test_client, db_session):
 
 async def test_create_user_fails_if_movie_exsits(test_client, db_session):
     # Arrange
-    new_movie = {
-        "title": "test",
-        "description": "test"
-    }
+    new_movie = {"title": "test", "description": "test"}
     _ = await MovieRepository.create(db_session, commit=True, **new_movie)
 
     # Act
@@ -45,7 +39,9 @@ async def test_create_user_fails_if_movie_exsits(test_client, db_session):
     # Assert
     assert response.status_code == status.HTTP_409_CONFLICT
 
-    assert response_data["detail"] == f"Movie already exists with title {new_movie["title"]}"
+    assert (
+        response_data["detail"] == f"Movie already exists with title {new_movie["title"]}"
+    )
 
     assert len(db_movies) == 1
     assert db_movies[0].title == new_movie["title"]
@@ -55,14 +51,14 @@ async def test_create_user_fails_if_movie_exsits(test_client, db_session):
 async def test_get_movies(test_client, db_session):
     # Arrange
     new_movies = [
-        {"title": "test","description": "test"},
+        {"title": "test", "description": "test"},
         {"title": "test_1", "description": "test_1"},
     ]
     movie_1 = await MovieRepository.create(db_session, commit=True, **new_movies[0])
     movie_2 = await MovieRepository.create(db_session, commit=True, **new_movies[1])
 
     # Act
-    response = test_client.get(f"api/v1/movies")
+    response = test_client.get("api/v1/movies")
     response_data = response.json()
 
     # Assert
@@ -78,7 +74,7 @@ async def test_get_movie_not_found(test_client, db_session):
     new_movies = [
         {"title": "test", "description": "test"},
     ]
-    movie = await MovieRepository.create(db_session, commit=True, **new_movies[0])
+    _ = await MovieRepository.create(db_session, commit=True, **new_movies[0])
 
     # Act
     response = test_client.get(f"api/v1/movies/{uuid.uuid4()}")

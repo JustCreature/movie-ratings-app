@@ -22,7 +22,10 @@ async def rate_movie(rating: sc.RatingCreate, db: AsyncSession = Depends(get_db)
     ]
     existing = await RatingRepository.find_one(db, filters=filters)
     if existing:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Rating already exists for this user/movie")
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="Rating already exists for this user/movie",
+        )
 
     new_rating = await RatingRepository.create(db, **rating.model_dump())
     log.info("rating_created", rating_id=new_rating.id)

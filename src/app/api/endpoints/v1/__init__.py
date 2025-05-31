@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from app.api.endpoints.v1 import movie, user, rating
+from app.api.endpoints.v1 import movie, rating, user
 
 api_router = APIRouter(prefix="/v1")
 api_router.include_router(movie.router, tags=["movie"])

@@ -1,6 +1,4 @@
-import logging.config
 import typing as t
-from pathlib import Path
 
 import structlog
 import uvicorn  # type: ignore

@@ -3,11 +3,12 @@ import re
 import uuid
 from typing import Any, Final, Literal, cast
 
-from sqlalchemy import BigInteger, Column, MetaData, DateTime, String, func
-from sqlalchemy.ext.declarative import declared_attr
-from sqlalchemy.orm import mapped_column, Mapped
-from sqlalchemy.orm.decl_api import DeclarativeBase
+from sqlalchemy import DateTime, MetaData, func
 from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.ext.declarative import declared_attr
+from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm.decl_api import DeclarativeBase
+
 
 class RootBase(DeclarativeBase):
     metadata = MetaData()
@@ -70,7 +71,9 @@ class Base(RootBase):  # type: ignore
         for key in columns.keys():
             if key.startswith("_"):
                 continue
-            if key not in readonly and key in kwargs:  # and getattr(self, key) != kwargs[key]:
+            if (
+                key not in readonly and key in kwargs
+            ):  # and getattr(self, key) != kwargs[key]:
                 setattr(self, key, kwargs[key])
 
         # Update relationships
@@ -193,7 +196,9 @@ class TopLevelModel(Base):
 
     @declared_attr
     def created_at(self) -> Mapped[datetime.datetime]:
-        return mapped_column(DateTime(timezone=True), nullable=False, server_default=func.now())
+        return mapped_column(
+            DateTime(timezone=True), nullable=False, server_default=func.now()
+        )
 
     @declared_attr
     def updated_at(self) -> Mapped[datetime.datetime]:
@@ -201,7 +206,7 @@ class TopLevelModel(Base):
             DateTime(timezone=True),
             nullable=False,
             server_default=func.now(),
-            onupdate=func.now()
+            onupdate=func.now(),
         )
 
     @declared_attr
@@ -213,7 +218,4 @@ class TopLevelModel(Base):
         return mapped_column(UUID(as_uuid=True), nullable=True)
 
     def to_dict(self):
-        return {
-            c.key: getattr(self, c.key)
-            for c in self.__mapper__.column_attrs
-        }
+        return {c.key: getattr(self, c.key) for c in self.__mapper__.column_attrs}

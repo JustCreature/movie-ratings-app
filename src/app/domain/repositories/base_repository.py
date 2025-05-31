@@ -3,14 +3,16 @@ from typing import Any, Callable, Generic, Type, TypeVar
 from uuid import UUID
 
 import sqlalchemy as sa
-from sqlalchemy import asc, desc, func
+from pydantic import BaseModel
+from sqlalchemy import and_, asc, desc, func, select
 from sqlalchemy.engine import Result  # type: ignore
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.sql.elements import ClauseElement, ClauseList, ColumnElement
-from sqlalchemy import select, and_
 
-T_Model = TypeVar("T_Model", bound="BaseDBModel")
-T_Schema = TypeVar("T_Schema", bound="BaseModel")
+from app.database.base_model import Base as BaseDBModel
+
+T_Model = TypeVar("T_Model", bound=BaseDBModel)
+T_Schema = TypeVar("T_Schema", bound=BaseModel)
 Filter = tuple[str, Any] | tuple[str, str, Any] | Callable[[T_Model], ClauseElement]
 
 
@@ -39,7 +41,9 @@ class BaseRepository(Generic[T_Model, T_Schema]):
         self._model = model
         self._schema = schema
 
-    async def create(self, session: AsyncSession, commit: bool = False, **kwargs: Any) -> T_Schema:
+    async def create(
+        self, session: AsyncSession, commit: bool = False, **kwargs: Any
+    ) -> T_Schema:
         """
         Add a new object
         """
@@ -52,7 +56,9 @@ class BaseRepository(Generic[T_Model, T_Schema]):
         result = self._schema.model_validate(obj.to_dict())
         return result
 
-    async def count(self, session: AsyncSession, filters: list[Filter] | None = None) -> int:
+    async def count(
+        self, session: AsyncSession, filters: list[Filter] | None = None
+    ) -> int:
         query = sa.select(sa.func.count()).select_from(self._model)  # type: ignore
         if filters:
             query = query.where(sa.and_(*self._apply_filters(filters)))
@@ -104,7 +110,11 @@ class BaseRepository(Generic[T_Model, T_Schema]):
         Find all results matching filters
         """
         result = await self._find_raw(
-            session, offset=offset, limit=limit, filters=filters, sort_options=sort_options
+            session,
+            offset=offset,
+            limit=limit,
+            filters=filters,
+            sort_options=sort_options,
         )
         return [self._schema.parse_obj(r.to_dict()) for r in result.scalars().all()]
 
@@ -147,7 +157,9 @@ class BaseRepository(Generic[T_Model, T_Schema]):
             await session.flush()
         return self._schema.parse_obj(obj.to_dict())
 
-    async def delete(self, session: AsyncSession, id: UUID, commit: bool = False) -> T_Schema:
+    async def delete(
+        self, session: AsyncSession, id: UUID, commit: bool = False
+    ) -> T_Schema:
         """
         Remove an object by id
         """
