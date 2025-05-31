@@ -70,5 +70,5 @@ jobs:
       - name: Install dependencies
         run: sudo apt-get update && sudo apt-get install libpq-dev make git -y && sudo apt-get clean && poetry config virtualenvs.create false && poetry install --no-root --no-interaction --no-ansi
 
-      - name: Run lint-full-check
+      - name: Run tests
         run: make test-with-coverage
