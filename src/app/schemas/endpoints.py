@@ -58,6 +58,6 @@ class RatingListOut(BaseModel):
     total: int
 
 
-class UserProfile(BaseModel):
+class UserProfileOut(BaseModel):
     user: UserOut
-    rated_movies: list[RatingOut]
+    ratings: RatingListOut
