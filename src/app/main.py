@@ -19,6 +19,8 @@ from app.exceptions import CustomServiceException
 from app.schemas.error_response import ErrorResponse
 from app.settings import settings
 
+# just a comment
+
 structlog.configure(
     processors=[
         structlog.processors.TimeStamper(fmt="iso"),
