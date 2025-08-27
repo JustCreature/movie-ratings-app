@@ -21,6 +21,8 @@ class CustomServiceErrorCodes(AutoNameEnum):
     RESOURCE_FORBIDDEN = auto()
     VALIDATION_ERROR = auto()
     RESOURCE_NOT_FOUND = auto()
+    EXTERNAL_SERVICE_ERROR = auto()
+    DEPENDENCY_CLIENT_ERROR = auto()
 
     # Users-specific errors
     USER_DOES_NOT_EXIST = auto()

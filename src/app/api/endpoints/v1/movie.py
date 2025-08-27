@@ -7,6 +7,7 @@ from starlette import status
 
 import app.schemas.endpoints as sc
 from app.dependencies import get_db
+from app.docs import get_endpoint_description
 from app.domain.repositories.movie_repository import MovieRepository
 
 log = structlog.get_logger()
@@ -14,7 +15,16 @@ log = structlog.get_logger()
 router = APIRouter()
 
 
-@router.post("/movies", response_model=sc.MovieOut, status_code=status.HTTP_201_CREATED)
+@router.post(
+    "/movies",
+    description=get_endpoint_description(
+        title="Create a movie",
+        description="Add a new movie",
+        # permissions=[for example Permissions.MOVIE_CREATE],
+    ),
+    response_model=sc.MovieOut,
+    status_code=status.HTTP_201_CREATED,
+)
 async def create_movie(
     movie: sc.MovieCreate, db: AsyncSession = Depends(get_db)
 ) -> sc.MovieOut:

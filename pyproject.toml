@@ -19,6 +19,8 @@ pydantic-settings = "^2.9.1"
 pydantic = "^2.11.5"
 asyncpg = "^0.30.0"
 httpx = "^0.28.1"
+logfire = {extras = ["fastapi"], version = "^3.16.1"}
+chevron = "^0.14.0"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -34,6 +36,9 @@ pytest-dotenv = "^0.5.2"
 asgi-lifespan = "^2.1.0"
 pytest-structlog = "^1.1"
 python-json-logger = "^2.0.7"
+
+[tool.logfire]
+pydantic_plugin_record = "all"
 
 [tool.black]
 line-length = 90

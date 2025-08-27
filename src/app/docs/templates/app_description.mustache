@@ -1,0 +1,65 @@
+The Movie Ratings App (MRA) API is a service used to manage all movie ratings related information.
+
+---
+
+## **!!! Important Notes !!!**
+
+<put your important notes here>
+
+---
+
+## Authorization
+
+<put auth info here>
+
+---
+
+
+## Permissions
+
+For the MRA these are of the form `<resource>:<action>`.
+
+Where `<resource>` and `<action>` are each a series of dash-separated words.
+Words may contain alpha-numeric characters as well as dashes (ie. a-z/0-9/-).
+
+For example to give permission to read a movie the required permission is of the form
+`movie:read`.
+
+The following permissions are defined:
+
+|PERMISSION|DESCRIPTION|
+|-|-|
+{{#permissions}}
+|`{{name}}`|{{description}}|
+{{/permissions}}
+
+**Individual end-points define which permissions are required**
+
+---
+
+## Error Codes
+
+### 4xx Errors
+
+These indicate an issue with the request originating in some way from the client. In this case, the
+result will contain an ErrorResponse object containing an error code.
+
+#### Common Error Codes
+
+The following may be returned by any endpoint:
+
+|CODE|DESCRIPTION|
+|-|-|
+{{#error_codes}}
+|`{{code}}`|{{description}}|
+{{/error_codes}}
+
+#### Custom Error Codes
+
+Additional error codes may be returned for a given endpoint. **See the associated end-point
+description for further details**.
+
+### 5xx Errors
+
+Indicate a server-side issue and have no guaranteed returned type. These are purposefully not
+described in detail to the client for security reasons.

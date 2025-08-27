@@ -1,4 +1,4 @@
-SERVER_PORT=8054
+SERVER_PORT=8056
 ifneq (,$(wildcard ./.dev.env))
 	include .env
 	export
