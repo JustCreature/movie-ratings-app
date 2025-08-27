@@ -10,6 +10,7 @@ from starlette.middleware import Middleware
 from app.api.api import api_router
 from app.api.openapi import OpenApiDocumentation
 from app.context import ContextMiddleware
+from app.docs import get_app_description
 from app.exception_handlers import (
     arbitrary_exception_handler,
     handle_custome_service_exception,
@@ -46,7 +47,9 @@ def create_app():
         docs_url="/docs/",
         redoc_url="/docs/redocs/",
         responses=responses,
+        description=get_app_description(),
         debug=settings.DEBUG,
+        version="0.0.1",
     )
 
     app.add_exception_handler(CustomServiceException, handle_custome_service_exception)

@@ -1,0 +1,34 @@
+# {{title}}
+
+{{#description}}{{description}}{{/description}}
+
+---
+
+## Permissions
+
+{{#permissions}}
+`{{name}}`
+{{/permissions}}
+{{^permissions}}
+There are no required permissions for this endpoint.
+{{/permissions}}
+
+---
+
+## Custom Errors
+
+{{#has_custom_errors}}
+In addition to one of the Common Error Codes, one of the following error codes may be reported
+for this endpoint:
+
+&nbsp;
+{{/has_custom_errors}}
+{{#custom_errors}}
+
+`{{code}}`
+
+> {{description}}
+{{/custom_errors}}
+{{^custom_errors}}
+There are no custom error messages for this endpoint.
+{{/custom_errors}}
